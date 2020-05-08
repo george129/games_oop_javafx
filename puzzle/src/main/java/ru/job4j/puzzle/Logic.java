@@ -70,7 +70,39 @@ public class Logic {
 
     public boolean isWin() {
         int[][] table = this.convert();
+        int x0 = -1;
+        int y0 = -1;
+        int sum = 0;
         boolean result = false;
+        //find X and Y by diagonal test
+        for (int i = 0; i < table.length; i++) {
+            if (table[i][i] == 1) {
+                x0 = i;
+                y0 = i;
+                break;
+            }
+        }
+        if (x0 == -1 || y0 == -1) {
+            return false;
+        }
+        //horizontal win-test
+        for (int row = 0; row < table.length; row++) {
+            sum += table[row][y0];
+        }
+
+        if (sum == table.length) {
+            result = true;
+        }
+
+        //vertical win-test
+        sum = 0; //if something went wrong and more than 1 line is full
+        for (int col = 0; col < table.length; col++) {
+            sum += table[x0][col];
+        }
+        if (sum == table.length) {
+            result = true;
+        }
+
         return result;
     }
 
