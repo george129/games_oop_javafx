@@ -68,41 +68,32 @@ public class Logic {
         return rst;
     }
 
-    public boolean isWin() {
-        int[][] table = this.convert();
-        int x0 = -1;
-        int y0 = -1;
-        int sum = 0;
+    /**
+     *
+     * @param matrix - matrix containing the checked lines
+     * @param testIndex - index of intersection of line and matrix diagonal
+     * @return - true if horizontal or vertical line on the intersection is full of '1'
+     */
+    private boolean lineIsFull(int[][] matrix, int testIndex) {
         boolean result = false;
-        //find X and Y by diagonal test
-        for (int i = 0; i < table.length; i++) {
-            if (table[i][i] == 1) {
-                x0 = i;
-                y0 = i;
+        for (int index = 0; index < matrix.length; index++) {
+            result = matrix[index][testIndex] == 1 || matrix[testIndex][index] == 1;
+            if (!result) {
                 break;
             }
         }
-        if (x0 == -1 || y0 == -1) {
-            return false;
-        }
-        //horizontal win-test
-        for (int row = 0; row < table.length; row++) {
-            sum += table[row][y0];
-        }
+        return result;
+    }
 
-        if (sum == table.length) {
-            result = true;
-        }
+    public boolean isWin() {
+        int[][] table = this.convert();
+        boolean result = false;
 
-        //vertical win-test
-        sum = 0; //if something went wrong and more than 1 line is full
-        for (int col = 0; col < table.length; col++) {
-            sum += table[x0][col];
+        for (int i = 0; i < table.length; i++) {
+            if (table[i][i] == 1) {
+                result = lineIsFull(table, i);
+            }
         }
-        if (sum == table.length) {
-            result = true;
-        }
-
         return result;
     }
 
