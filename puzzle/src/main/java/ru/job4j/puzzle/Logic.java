@@ -75,21 +75,21 @@ public class Logic {
      * @return - true if horizontal or vertical line on the intersection is full of '1'
      */
     private boolean lineIsFull(int[][] matrix, int testIndex) {
-        boolean hresult = false;
-        boolean vresult = false;
+        int hsumm = 0;
+        int vsumm = 0;
         boolean vskip = false;
         boolean hskip = false;
         for (int index = 0; index < matrix.length; index++) {
             if (!hskip) {
-                hresult = matrix[testIndex][index] == 1;
-                if (!hresult) {
+                hsumm += matrix[testIndex][index];
+                if (matrix[testIndex][index] == 0) {
                     hskip = true;
                 }
             }
 
             if (!vskip) {
-                vresult = matrix[index][testIndex] == 1;
-                if (!vresult) {
+                vsumm += matrix[index][testIndex];
+                if (matrix[index][testIndex] == 0) {
                     vskip = true;
                 }
             }
@@ -97,7 +97,7 @@ public class Logic {
                 break;
             }
         }
-        return vresult || hresult;
+        return vsumm == matrix[0].length || hsumm == matrix[0].length;
     }
 
     public boolean isWin() {
