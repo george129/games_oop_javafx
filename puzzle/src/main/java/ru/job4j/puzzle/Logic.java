@@ -68,45 +68,21 @@ public class Logic {
         return rst;
     }
 
-    /**
-     *
-     * @param matrix - matrix containing the checked lines
-     * @param testIndex - index of intersection of line and matrix diagonal
-     * @return - true if horizontal or vertical line on the intersection is full of '1'
-     */
-    private boolean lineIsFull(int[][] matrix, int testIndex) {
-        int hsumm = 0;
-        int vsumm = 0;
-        boolean vskip = false;
-        boolean hskip = false;
-        for (int index = 0; index < matrix.length; index++) {
-            if (!hskip) {
-                hsumm += matrix[testIndex][index];
-                if (matrix[testIndex][index] == 0) {
-                    hskip = true;
-                }
-            }
-
-            if (!vskip) {
-                vsumm += matrix[index][testIndex];
-                if (matrix[index][testIndex] == 0) {
-                    vskip = true;
-                }
-            }
-            if (vskip && hskip) {
-                break;
-            }
-        }
-        return vsumm == matrix[0].length || hsumm == matrix[0].length;
-    }
-
     public boolean isWin() {
         int[][] table = this.convert();
         boolean result = false;
-
         for (int i = 0; i < table.length; i++) {
             if (table[i][i] == 1) {
-                result = lineIsFull(table, i);
+                int hsumm = 0;
+                int vsumm = 0;
+                for (int index = 0; index < table.length; index++) {
+                    hsumm += table[i][index];
+                    vsumm += table[index][i];
+                    if (hsumm == table.length || vsumm == table.length) {
+                        result = true;
+                        break;
+                    }
+                }
             }
         }
         return result;
