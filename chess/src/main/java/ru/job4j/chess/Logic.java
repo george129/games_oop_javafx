@@ -16,25 +16,23 @@ public final class Logic {
             throws FigureNotFoundException, ImpossibleMoveException, OccupiedCellException {
         int index = findBy(source);
         boolean rst = false;
-        if (index != -1) {
-            Cell[] steps;
-            try {
-                steps = figures[index].way(source, dest);
-                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                    rst = true;
-                    this.figures[index] = this.figures[index].copy(dest);
-                }
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
+        Cell[] steps;
+        steps = figures[index].way(source, dest);
+        if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+            this.figures[index] = this.figures[index].copy(dest);
         }
-        Cell[] steps = figures[index].way(source, dest);
         free(steps);
         figures[index] = figures[index].copy(dest);
         return rst;
     }
 
     private boolean free(Cell[] steps) throws OccupiedCellException {
+        for (int i = 0; i < steps.length; i++) {
+            if (figures[i].position().getX() == steps[i].getX()
+                    && figures[i].position().getY() == steps[i].getY()) {
+                throw new OccupiedCellException();
+            }
+        }
         return true;
     }
 
