@@ -17,11 +17,10 @@ public final class Logic {
         int index = findBy(source);
         boolean rst = false;
         Cell[] steps = figures[index].way(source, dest);
-        if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+        if (steps.length > 0 && steps[steps.length - 1].equals(dest) && free(steps)) {
             figures[index] = figures[index].copy(dest);
             rst = true;
         }
-        free(steps);
         return rst;
     }
 
